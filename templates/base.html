@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {#基模板中需要在实际的子模板中追加或重写的部分则可以定义成块(block)。#}
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.name }}'s Watchlist</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" type="text/css">
+    {% endblock %}
+</head>
+<body>
+    <h2>
+        <img src="{{ url_for('static', filename='images/avatar.png')}}" alt="Avatar" class="avatar">{{ user.name }}'s Watchlist
+    </h2>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index')}}">Home</a></li>
+        </ul>
+    </nav>
+    {% block content %}{% endblock %}
+    <footer>
+        <small>&copy; 2024 <a href="http://helloflask.com/book/3">HelloFlask</a></small>
+    </footer>
+    
+</body>
+</html>

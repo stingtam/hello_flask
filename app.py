@@ -60,14 +60,28 @@ def forge():
     click.echo("Done.")
 
 
-@app.route("/")
-def index():
+# 对于多个模板内都需要使用的变量，我们可以使用 app.context_processor 装饰器注册一个模板上下文处理函数
+@app.context_processor
+def inject_user():
     user = User.query.first()
-    movies = Movie.query.all()
-    return render_template("index.html", user=user, movies=movies)
+    return dict(user=user)  # 等同于{user: user}
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    user = User.query.first()
-    return render_template("404.html", user=user), 404
+    # user = User.query.first()
+    return render_template("404.html"), 404
+
+
+@app.route("/")
+def index():
+    # 不需要定义user
+    # user = User.query.first()
+    movies = Movie.query.all()
+    # return render_template("index.html", user=user, movies=movies)
+    # 删除参数user=user
+    return render_template("index.html", movies=movies)
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
